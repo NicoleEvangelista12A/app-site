@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VittaSafe | Cuidador</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topo">
+
+    <div class="logo">
+        <span>VITTA</span>SAFE
+    </div>
+
+    <button id="tema" class="tema-btn">🌙</button>
+
+</header>
+
+<main class="container">
+
+    <section class="boas-vindas">
+        <p>Área do cuidador</p>
+        <h1>Monitoramento</h1>
+        <span>Acompanhe o paciente em tempo real.</span>
+    </section>
+
+    <section class="card-bpm">
+
+        <div class="titulo-card">
+            <span>Paciente</span>
+            <span>● Online</span>
+        </div>
+
+        <h2 id="nomePaciente" style="margin-top: 20px;">
+            Paciente VittaSafe
+        </h2>
+
+        <div class="bpm">
+            <strong id="bpm">--</strong>
+            <span>BPM</span>
+        </div>
+
+        <div id="status" class="status normal">
+            --
+        </div>
+
+    </section>
+
+    <section class="informacoes">
+
+        <div class="info-card">
+            <span>Monitoramento</span>
+            <strong>Ativo</strong>
+        </div>
+
+        <div class="info-card">
+            <span>Pulseira</span>
+            <strong id="pulseira">Conectada</strong>
+        </div>
+
+    </section>
+
+    <section class="card-bpm" style="margin-top: 20px;">
+
+        <div class="titulo-card">
+            <span>Histórico recente</span>
+        </div>
+
+        <div id="historico" style="margin-top: 20px;"></div>
+
+    </section>
+
+</main>
+
+<script src="cuidador.js"></script>
+
+</body>
+</html>

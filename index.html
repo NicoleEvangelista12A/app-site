@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VittaSafe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topo">
+    <div class="logo">
+        <span>VITTA</span>SAFE
+    </div>
+
+    <button id="tema" class="tema-btn">🌙</button>
+</header>
+
+<main class="container">
+
+    <section class="boas-vindas">
+        <p>Monitoramento inteligente</p>
+        <h1>Olá!</h1>
+        <span>Estamos cuidando de você.</span>
+    </section>
+
+    <section class="card-bpm">
+
+        <div class="titulo-card">
+            <span>Batimento cardíaco</span>
+            <span class="pulso">♥</span>
+        </div>
+
+        <div class="bpm">
+            <strong id="bpm">--</strong>
+            <span>BPM</span>
+        </div>
+
+        <div id="status" class="status normal">
+            Conectando...
+        </div>
+
+        <div class="linha"></div>
+
+        <div class="conexao">
+            <span class="bolinha"></span>
+            <span id="conexao">Conectando à pulseira...</span>
+        </div>
+
+    </section>
+
+    <section class="informacoes">
+
+        <div class="info-card">
+            <span>Última atualização</span>
+            <strong id="atualizacao">--</strong>
+        </div>
+
+        <div class="info-card">
+            <span>Monitoramento</span>
+            <strong>Ativo</strong>
+        </div>
+
+    </section>
+
+    <a href="cuidador.html" class="botao-cuidador">
+        Área do cuidador
+    </a>
+
+</main>
+
+<div id="alerta" class="alerta escondido">
+    <div class="alerta-conteudo">
+        <div class="alerta-icone">!</div>
+
+        <h2>Alerta VittaSafe</h2>
+
+        <p>
+            Foi identificada uma alteração importante
+            nos batimentos.
+        </p>
+
+        <strong id="alerta-bpm">-- BPM</strong>
+
+        <button id="fechar-alerta">
+            Entendi
+        </button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
