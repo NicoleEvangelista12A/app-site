@@ -1,17 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --azul: #38bdf8;
-    --azul-escuro: #0284c7;
-    --azul-serenity: #7dd3fc;
-    --fundo: #f4f9ff;
-    --card: #ffffff;
-    --texto: #172033;
-    --texto-secundario: #64748b;
-    --borda: #dbeafe;
-    --verde: #16a34a;
-    --amarelo: #f59e0b;
-    --vermelho: #dc2626;
+    --vs-blue: #227ca3;
+    --vs-blue-dark: #0284c7;
+    --vs-blue-soft: #b6d7e6;
+
+    --background: #fbfcfc;
+    --card: rgba(255, 255, 255, 0.78);
+    --card-hover: rgba(255, 255, 255, 0.92);
+
+    --text: #172033;
+    --text-secondary: #64748b;
+
+    --border: rgba(219, 234, 254, 0.85);
+
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+
+    --yellow: #f59e0b;
+    --yellow-bg: #fef3c7;
+
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+
+    --shadow: rgba(14, 116, 144, 0.15);
 }
 
 * {
@@ -20,19 +32,69 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: "Plus Jakarta Sans", sans-serif;
-    background: var(--fundo);
-    color: var(--texto);
+    background-color: var(--background);
+    background-image:
+        linear-gradient(
+            rgba(244, 249, 255, 0.68),
+            rgba(244, 249, 255, 0.68)
+        ),
+        url("./imgs/fundo-vittasafe.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--text);
     min-height: 100vh;
-    transition: 0.3s;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
+
+/* =========================
+   MODO ESCURO
+========================= */
+
+body.dark {
+    --background: #070b17;
+
+    --card: rgba(16, 24, 39, 0.88);
+    --card-hover: rgba(20, 32, 51, 0.95);
+
+    --text: #f8fafc;
+    --text-secondary: #a8b6ca;
+
+    --border: rgba(36, 52, 77, 0.9);
+
+    --green-bg: #102c20;
+    --yellow-bg: #33280d;
+    --red-bg: #351619;
+
+    --shadow: rgba(0, 0, 0, 0.45);
+
+    background-image:
+        linear-gradient(
+            rgba(7, 11, 23, 0.70),
+            rgba(7, 11, 23, 0.70)
+        ),
+        url("./imgs/fundo-vittasafe.png");
+}
+
+/* =========================
+   TOPO
+========================= */
 
 .topo {
     width: 100%;
     max-width: 900px;
     margin: auto;
     padding: 25px 25px 10px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,258 +103,522 @@ body {
 .logo {
     font-family: "Cinzel", serif;
     font-size: 24px;
+    font-weight: 800;
     letter-spacing: 1px;
+    color: var(--text);
 }
 
 .logo span {
-    color: var(--azul);
+    color: var(--vs-blue);
 }
 
+/* =========================
+   BOTÃO TEMA
+========================= */
+
 .tema-btn {
-    border: none;
-    width: 45px;
-    height: 45px;
+    width: 46px;
+    height: 46px;
+
+    border: 1px solid var(--border);
     border-radius: 50%;
-    cursor: pointer;
+
     background: var(--card);
-    box-shadow: 0 5px 20px rgba(30, 100, 150, 0.12);
+    color: var(--text);
+
+    box-shadow: 0 6px 20px var(--shadow);
+
     font-size: 19px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
 }
+
+.tema-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px var(--shadow);
+}
+
+.tema-btn:active {
+    transform: scale(0.94);
+}
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container {
     width: 100%;
     max-width: 700px;
+
     margin: auto;
+
     padding: 35px 25px 50px;
 }
+
+/* =========================
+   BOAS-VINDAS
+========================= */
 
 .boas-vindas {
     margin-bottom: 25px;
 }
 
 .boas-vindas p {
-    color: var(--azul-escuro);
+    color: var(--vs-blue-dark);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+body.dark .boas-vindas p {
+    color: var(--vs-blue);
 }
 
 .boas-vindas h1 {
-    margin-top: 7px;
     font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
 }
 
 .boas-vindas span {
-    color: var(--texto-secundario);
+    color: var(--text-secondary);
+    font-size: 15px;
 }
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
 
 .card-bpm {
     background: var(--card);
+
+    border: 1px solid var(--border);
     border-radius: 28px;
+
     padding: 30px;
-    box-shadow: 0 15px 45px rgba(14, 116, 144, 0.12);
-    border: 1px solid var(--borda);
+
+    box-shadow:
+        0 18px 50px var(--shadow);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
     text-align: center;
+
+    transition:
+        background 0.3s ease,
+        border 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+}
+
+.card-bpm:hover {
+    transform: translateY(-2px);
+}
+
+body.dark .card-bpm {
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(56, 189, 248, 0.04);
 }
 
 .titulo-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--texto-secundario);
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
     font-weight: 600;
 }
 
 .pulso {
-    color: var(--azul);
-    font-size: 25px;
+    color: var(--vs-blue);
+    font-size: 26px;
+
+    animation: pulsar 1.5s infinite;
 }
 
+@keyframes pulsar {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   BPM
+========================= */
+
 .bpm {
-    margin: 30px 0 15px;
+    margin: 30px 0 18px;
+
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    gap: 8px;
 }
 
 .bpm strong {
     font-size: 85px;
     line-height: 1;
+
+    font-weight: 700;
+
+    color: var(--text);
 }
 
 .bpm span {
-    color: var(--texto-secundario);
-    font-weight: 600;
+    color: var(--text-secondary);
+
+    font-size: 16px;
+
+    font-weight: 700;
 }
 
+/* =========================
+   STATUS
+========================= */
+
 .status {
-    display: inline-block;
-    padding: 12px 28px;
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 30px;
+
     border-radius: 50px;
-    font-weight: 700;
+
     font-size: 17px;
+    font-weight: 700;
+
+    transition: 0.3s ease;
 }
 
 .status.normal {
-    background: #dcfce7;
-    color: var(--verde);
+    background: var(--green-bg);
+    color: var(--green);
 }
 
 .status.atencao {
-    background: #fef3c7;
-    color: var(--amarelo);
+    background: var(--yellow-bg);
+    color: var(--yellow);
 }
 
 .status.risco {
-    background: #fee2e2;
-    color: var(--vermelho);
+    background: var(--red-bg);
+    color: var(--red);
 }
 
+/* =========================
+   LINHA
+========================= */
+
 .linha {
+    width: 100%;
     height: 1px;
-    background: var(--borda);
+
+    background: var(--border);
+
     margin: 30px 0 20px;
 }
 
+/* =========================
+   CONEXÃO
+========================= */
+
 .conexao {
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     gap: 9px;
-    color: var(--texto-secundario);
+
+    color: var(--text-secondary);
+
     font-size: 14px;
 }
 
 .bolinha {
     width: 9px;
     height: 9px;
-    background: var(--verde);
+
+    background: var(--green);
+
     border-radius: 50%;
+
+    box-shadow:
+        0 0 10px rgba(22, 163, 74, 0.5);
 }
+
+/* =========================
+   INFORMAÇÕES
+========================= */
 
 .informacoes {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 15px;
+
     margin-top: 18px;
 }
 
 .info-card {
     background: var(--card);
-    padding: 20px;
+
+    border: 1px solid var(--border);
+
     border-radius: 18px;
-    border: 1px solid var(--borda);
+
+    padding: 20px;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 10px 30px var(--shadow);
+
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        border 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+
+    background: var(--card-hover);
 }
 
 .info-card span {
     display: block;
-    color: var(--texto-secundario);
+
+    color: var(--text-secondary);
+
     font-size: 13px;
+
     margin-bottom: 7px;
 }
 
 .info-card strong {
+    color: var(--text);
+
     font-size: 16px;
 }
 
+/* =========================
+   BOTÃO CUIDADOR
+========================= */
+
 .botao-cuidador {
     display: block;
+
     margin-top: 20px;
-    background: var(--azul-escuro);
+
+    background: linear-gradient(
+        135deg,
+        var(--vs-blue-dark),
+        var(--vs-blue)
+    );
+
     color: white;
+
     text-decoration: none;
+
     text-align: center;
+
     padding: 17px;
+
     border-radius: 16px;
+
     font-weight: 700;
+
+    box-shadow:
+        0 10px 25px rgba(2, 132, 199, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+.botao-cuidador:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(2, 132, 199, 0.35);
+}
+
+/* =========================
+   ALERTA
+========================= */
 
 .alerta {
     position: fixed;
+
     inset: 0;
-    background: rgba(15, 23, 42, 0.65);
+
+    background: rgba(3, 7, 18, 0.72);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
     display: flex;
+
     justify-content: center;
     align-items: center;
+
     padding: 20px;
+
+    z-index: 1000;
 }
 
 .alerta-conteudo {
     background: var(--card);
+
     max-width: 400px;
+
     width: 100%;
+
+    border: 1px solid var(--border);
+
     border-radius: 25px;
+
     padding: 30px;
+
     text-align: center;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .alerta-icone {
     width: 55px;
     height: 55px;
+
     margin: auto;
+
     border-radius: 50%;
-    background: #fee2e2;
-    color: var(--vermelho);
+
+    background: var(--red-bg);
+
+    color: var(--red);
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     font-size: 25px;
+
     font-weight: 700;
 }
 
 .alerta-conteudo h2 {
+    color: var(--text);
+
     margin: 18px 0 10px;
 }
 
 .alerta-conteudo p {
-    color: var(--texto-secundario);
+    color: var(--text-secondary);
+
     line-height: 1.6;
 }
 
 .alerta-conteudo strong {
     display: block;
+
     margin: 18px 0;
+
+    color: var(--red);
+
     font-size: 24px;
 }
 
 .alerta-conteudo button {
     width: 100%;
+
     border: none;
+
     padding: 15px;
+
     border-radius: 14px;
-    background: var(--vermelho);
+
+    background: var(--red);
+
     color: white;
+
     font-weight: 700;
+
     cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.alerta-conteudo button:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
 }
 
 .escondido {
-    display: none;
+    display: none !important;
 }
 
-body.dark {
-    --fundo: #080d1c;
-    --card: #101a2d;
-    --texto: #f8fafc;
-    --texto-secundario: #a9b8ce;
-    --borda: #1e3450;
-    --azul: #38bdf8;
-    --azul-escuro: #0ea5e9;
+/* =========================
+   HISTÓRICO
+========================= */
+
+#historico {
+    color: var(--text);
 }
 
-body.dark .status.normal {
-    background: #123524;
+#historico small {
+    color: var(--text-secondary);
 }
 
-body.dark .status.atencao {
-    background: #3a2d0b;
-}
-
-body.dark .status.risco {
-    background: #3c1717;
-}
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media (max-width: 600px) {
 
+    .topo {
+        padding: 20px 20px 5px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
     .container {
-        padding-top: 25px;
+        padding: 25px 18px 40px;
     }
 
     .boas-vindas h1 {
@@ -301,6 +627,8 @@ body.dark .status.risco {
 
     .card-bpm {
         padding: 25px 18px;
+
+        border-radius: 24px;
     }
 
     .bpm strong {
@@ -309,5 +637,11 @@ body.dark .status.risco {
 
     .informacoes {
         grid-template-columns: 1fr;
+    }
+
+    .status {
+        font-size: 15px;
+
+        padding: 11px 25px;
     }
 }

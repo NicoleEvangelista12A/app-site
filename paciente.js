@@ -2,10 +2,56 @@ const API = "http://localhost:3006/api";
 
 let ultimoStatus = "Normal";
 
+const botaoTema = document.getElementById("tema");
+
+function carregarTema() {
+    const temaSalvo = localStorage.getItem("vittasafe-tema");
+
+    if (temaSalvo === "dark") {
+        document.body.classList.add("dark");
+
+        if (botaoTema) {
+            botaoTema.textContent = "☀️";
+            botaoTema.setAttribute("aria-label", "Ativar modo claro");
+        }
+    } else {
+        document.body.classList.remove("dark");
+
+        if (botaoTema) {
+            botaoTema.textContent = "🌙";
+            botaoTema.setAttribute("aria-label", "Ativar modo escuro");
+        }
+    }
+}
+
+function alternarTema() {
+    const modoEscuro = document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "vittasafe-tema",
+        modoEscuro ? "dark" : "light"
+    );
+
+    if (botaoTema) {
+        botaoTema.textContent = modoEscuro ? "☀️" : "🌙";
+
+        botaoTema.setAttribute(
+            "aria-label",
+            modoEscuro
+                ? "Ativar modo claro"
+                : "Ativar modo escuro"
+        );
+    }
+}
+
+if (botaoTema) {
+    botaoTema.addEventListener("click", alternarTema);
+}
+
+carregarTema();
+
 async function atualizarPaciente() {
-
     try {
-
         const resposta = await fetch(`${API}/paciente`);
         const paciente = await resposta.json();
 
@@ -46,50 +92,34 @@ async function atualizarPaciente() {
                 : "Pulseira desconectada";
 
     } catch (erro) {
-
         document.getElementById("conexao").textContent =
             "Servidor indisponível";
 
-        console.error(erro);
+        console.error("Erro ao conectar com a API:", erro);
     }
 }
 
 function mostrarAlerta(bpm) {
+    const alerta = document.getElementById("alerta");
+    const alertaBpm = document.getElementById("alerta-bpm");
 
-    document.getElementById("alerta-bpm").textContent =
-        `${bpm} BPM`;
+    if (alertaBpm) {
+        alertaBpm.textContent = `${bpm} BPM`;
+    }
 
-    document.getElementById("alerta").classList.remove("escondido");
+    if (alerta) {
+        alerta.classList.remove("escondido");
+    }
 }
 
-document
-    .getElementById("fechar-alerta")
-    .addEventListener("click", () => {
+const fecharAlerta = document.getElementById("fechar-alerta");
 
+if (fecharAlerta) {
+    fecharAlerta.addEventListener("click", () => {
         document
             .getElementById("alerta")
             .classList.add("escondido");
-
     });
-
-document
-    .getElementById("tema")
-    .addEventListener("click", () => {
-
-        document.body.classList.toggle("dark");
-
-        const escuro =
-            document.body.classList.contains("dark");
-
-        localStorage.setItem("vittasafe-tema", escuro ? "dark" : "light");
-
-        document.getElementById("tema").textContent =
-            escuro ? "☀️" : "🌙";
-    });
-
-if (localStorage.getItem("vittasafe-tema") === "dark") {
-    document.body.classList.add("dark");
-    document.getElementById("tema").textContent = "☀️";
 }
 
 atualizarPaciente();
