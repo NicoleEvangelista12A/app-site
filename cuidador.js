@@ -1,5 +1,12 @@
 const API = "http://localhost:3006/api";
 
+// Tema claro/escuro (função compartilhada do comum.js)
+vsInitTema();
+
+// ============================================================
+//  ESTADO ATUAL DO PACIENTE
+// ============================================================
+
 async function atualizarCuidador() {
 
     try {
@@ -45,83 +52,104 @@ async function atualizarCuidador() {
     }
 }
 
+// ============================================================
+//  HISTÓRICO DE BATIMENTOS
+// ============================================================
+
+async function carregarBatimentos() {
+    try {
+        const resposta = await fetch(`${API}/batimentos`);
+        const pontos = await resposta.json();
+
+        vsDesenharGrafico("grafico", pontos);
+
+        const lista = document.getElementById("listaBatimentos");
+        document.getElementById("qtdBatimentos").textContent = pontos.length;
+
+        if (!pontos.length) {
+            lista.innerHTML = `<p class="vazio">Nenhum batimento registrado ainda.</p>`;
+            return;
+        }
+
+        lista.innerHTML = pontos
+            .slice(0, 12)
+            .map((p) => {
+                let cor = "normal";
+                if (p.status === "Atenção") cor = "atencao";
+                if (p.status === "Risco") cor = "risco";
+
+                return `
+                    <div class="item-historico">
+                        <span class="item-hora">${vsHora(p.horario)}</span>
+                        <span class="item-bpm ${cor}">${p.bpm} BPM</span>
+                        <span class="item-status ${cor}">${p.status}</span>
+                    </div>
+                `;
+            })
+            .join("");
+    } catch (erro) {
+        console.error("Erro no histórico de batimentos:", erro);
+    }
+}
+
+// ============================================================
+//  HISTÓRICO DE ALTERAÇÕES (eventos Atenção / Risco)
+// ============================================================
+
 async function carregarHistorico() {
 
-    const resposta =
-        await fetch(`${API}/historico`);
+    try {
 
-    const eventos =
-        await resposta.json();
+        const resposta =
+            await fetch(`${API}/historico`);
 
-    const container =
-        document.getElementById("historico");
+        const eventos =
+            await resposta.json();
 
-    if (eventos.length === 0) {
+        const container =
+            document.getElementById("historico");
 
-        container.innerHTML =
-            "<p>Nenhum evento registrado.</p>";
+        if (!eventos.length) {
+            container.innerHTML =
+                `<p class="vazio">Nenhuma alteração registrada. Batimentos normais. ✓</p>`;
+            return;
+        }
 
-        return;
-    }
+        container.innerHTML = eventos
+            .slice(0, 12)
+            .map(evento => {
 
-    container.innerHTML = eventos
-        .slice(0, 8)
-        .map(evento => {
+                let cor = "atencao";
+                if (evento.status === "Risco") cor = "risco";
 
-            const horario =
-                new Date(evento.horario)
-                .toLocaleTimeString("pt-BR");
-
-            return `
-                <div style="
-                    padding: 14px 0;
-                    border-bottom: 1px solid var(--borda);
-                    display: flex;
-                    justify-content: space-between;
-                    gap: 10px;
-                ">
-                    <div>
-                        <strong>${evento.bpm} BPM</strong>
-                        <br>
-                        <small>${horario}</small>
+                return `
+                    <div class="item-historico">
+                        <span class="item-hora">${vsDataHora(evento.horario)}</span>
+                        <span class="item-bpm ${cor}">${evento.bpm} BPM</span>
+                        <span class="item-status ${cor}">${evento.status}</span>
                     </div>
+                `;
 
-                    <strong>${evento.status}</strong>
-                </div>
-            `;
+            })
+            .join("");
 
-        })
-        .join("");
+    } catch (erro) {
+
+        console.error("Erro no histórico:", erro);
+
+    }
 }
 
-document
-    .getElementById("tema")
-    .addEventListener("click", () => {
+// ============================================================
+//  INICIAR
+// ============================================================
 
-        document.body.classList.toggle("dark");
-
-        const escuro =
-            document.body.classList.contains("dark");
-
-        localStorage.setItem(
-            "vittasafe-tema",
-            escuro ? "dark" : "light"
-        );
-
-        document.getElementById("tema").textContent =
-            escuro ? "☀️" : "🌙";
-    });
-
-if (localStorage.getItem("vittasafe-tema") === "dark") {
-
-    document.body.classList.add("dark");
-
-    document.getElementById("tema").textContent =
-        "☀️";
-}
+window.addEventListener("resize", () => carregarBatimentos());
 
 atualizarCuidador();
+carregarBatimentos();
 carregarHistorico();
 
 setInterval(atualizarCuidador, 3000);
+setInterval(carregarBatimentos, 3000);
 setInterval(carregarHistorico, 5000);

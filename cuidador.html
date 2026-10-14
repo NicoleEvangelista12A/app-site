@@ -11,8 +11,16 @@
 
 <header class="topo">
 
-    <div class="logo">
-        <span>VITTA</span>SAFE
+    <div class="topo-esquerda">
+
+        <a href="index.html" class="btn-voltar" aria-label="Voltar para o início" title="Voltar">
+            &#8592;
+        </a>
+
+        <div class="logo">
+            <span>VITTA</span>SAFE
+        </div>
+
     </div>
 
     <button id="tema" class="tema-btn">🌙</button>
@@ -63,18 +71,42 @@
 
     </section>
 
-    <section class="card-bpm" style="margin-top: 20px;">
+    <section class="card-bpm card-grafico" style="margin-top: 18px;">
 
         <div class="titulo-card">
-            <span>Histórico recente</span>
+            <span>Batimentos em tempo real</span>
+            <span class="pulso">♥</span>
         </div>
 
-        <div id="historico" style="margin-top: 20px;"></div>
+        <canvas id="grafico" class="grafico"></canvas>
+
+    </section>
+
+    <section class="card-bpm" style="margin-top: 18px;">
+
+        <div class="titulo-card">
+            <span>Histórico de batimentos</span>
+            <span id="qtdBatimentos" class="contador">0</span>
+        </div>
+
+        <div id="listaBatimentos" class="lista-historico"></div>
+
+    </section>
+
+    <section class="card-bpm" style="margin-top: 18px;">
+
+        <div class="titulo-card">
+            <span>Alterações registradas</span>
+            <span class="tag-alerta">alertas</span>
+        </div>
+
+        <div id="historico" class="lista-historico"></div>
 
     </section>
 
 </main>
 
+<script src="comum.js"></script>
 <script src="cuidador.js"></script>
 
 </body>

@@ -64,6 +64,39 @@
 
     </section>
 
+    <section class="card-bpm card-grafico">
+
+        <div class="titulo-card">
+            <span>Batimentos em tempo real</span>
+            <span class="pulso">♥</span>
+        </div>
+
+        <canvas id="grafico" class="grafico"></canvas>
+
+    </section>
+
+    <section class="card-bpm" style="margin-top: 18px;">
+
+        <div class="titulo-card">
+            <span>Histórico de batimentos</span>
+            <span id="qtdBatimentos" class="contador">0</span>
+        </div>
+
+        <div id="listaBatimentos" class="lista-historico"></div>
+
+    </section>
+
+    <section class="card-bpm" style="margin-top: 18px;">
+
+        <div class="titulo-card">
+            <span>Alterações registradas</span>
+            <span class="tag-alerta">alertas</span>
+        </div>
+
+        <div id="listaEventos" class="lista-historico"></div>
+
+    </section>
+
     <a href="cuidador.html" class="botao-cuidador">
         Área do cuidador
     </a>
@@ -89,6 +122,7 @@
     </div>
 </div>
 
+<script src="comum.js"></script>
 <script src="paciente.js"></script>
 
 </body>

@@ -2,53 +2,12 @@ const API = "http://localhost:3006/api";
 
 let ultimoStatus = "Normal";
 
-const botaoTema = document.getElementById("tema");
+// Tema claro/escuro (função compartilhada do comum.js)
+vsInitTema();
 
-function carregarTema() {
-    const temaSalvo = localStorage.getItem("vittasafe-tema");
-
-    if (temaSalvo === "dark") {
-        document.body.classList.add("dark");
-
-        if (botaoTema) {
-            botaoTema.textContent = "☀️";
-            botaoTema.setAttribute("aria-label", "Ativar modo claro");
-        }
-    } else {
-        document.body.classList.remove("dark");
-
-        if (botaoTema) {
-            botaoTema.textContent = "🌙";
-            botaoTema.setAttribute("aria-label", "Ativar modo escuro");
-        }
-    }
-}
-
-function alternarTema() {
-    const modoEscuro = document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-        "vittasafe-tema",
-        modoEscuro ? "dark" : "light"
-    );
-
-    if (botaoTema) {
-        botaoTema.textContent = modoEscuro ? "☀️" : "🌙";
-
-        botaoTema.setAttribute(
-            "aria-label",
-            modoEscuro
-                ? "Ativar modo claro"
-                : "Ativar modo escuro"
-        );
-    }
-}
-
-if (botaoTema) {
-    botaoTema.addEventListener("click", alternarTema);
-}
-
-carregarTema();
+// ============================================================
+//  ESTADO ATUAL DO PACIENTE
+// ============================================================
 
 async function atualizarPaciente() {
     try {
@@ -99,6 +58,84 @@ async function atualizarPaciente() {
     }
 }
 
+
+
+async function carregarBatimentos() {
+    try {
+        const resposta = await fetch(`${API}/batimentos`);
+        const pontos = await resposta.json();
+
+        vsDesenharGrafico("grafico", pontos);
+
+        const lista = document.getElementById("listaBatimentos");
+        document.getElementById("qtdBatimentos").textContent = pontos.length;
+
+        if (!pontos.length) {
+            lista.innerHTML = `<p class="vazio">Nenhum batimento registrado ainda.</p>`;
+            return;
+        }
+
+        lista.innerHTML = pontos
+            .slice(0, 12)
+            .map((p) => {
+                let cor = "normal";
+                if (p.status === "Atenção") cor = "atencao";
+                if (p.status === "Risco") cor = "risco";
+
+                return `
+                    <div class="item-historico">
+                        <span class="item-hora">${vsHora(p.horario)}</span>
+                        <span class="item-bpm ${cor}">${p.bpm} BPM</span>
+                        <span class="item-status ${cor}">${p.status}</span>
+                    </div>
+                `;
+            })
+            .join("");
+    } catch (erro) {
+        console.error("Erro no histórico de batimentos:", erro);
+    }
+}
+
+// ============================================================
+//  HISTÓRICO DE ALTERAÇÕES (eventos Atenção / Risco)
+// ============================================================
+
+async function carregarEventos() {
+    try {
+        const resposta = await fetch(`${API}/historico`);
+        const eventos = await resposta.json();
+
+        const lista = document.getElementById("listaEventos");
+
+        if (!eventos.length) {
+            lista.innerHTML = `<p class="vazio">Nenhuma alteração registrada. Batimentos normais. ✓</p>`;
+            return;
+        }
+
+        lista.innerHTML = eventos
+            .slice(0, 10)
+            .map((evento) => {
+                let cor = "atencao";
+                if (evento.status === "Risco") cor = "risco";
+
+                return `
+                    <div class="item-historico">
+                        <span class="item-hora">${vsDataHora(evento.horario)}</span>
+                        <span class="item-bpm ${cor}">${evento.bpm} BPM</span>
+                        <span class="item-status ${cor}">${evento.status}</span>
+                    </div>
+                `;
+            })
+            .join("");
+    } catch (erro) {
+        console.error("Erro no histórico de eventos:", erro);
+    }
+}
+
+// ============================================================
+//  ALERTA
+// ============================================================
+
 function mostrarAlerta(bpm) {
     const alerta = document.getElementById("alerta");
     const alertaBpm = document.getElementById("alerta-bpm");
@@ -122,6 +159,17 @@ if (fecharAlerta) {
     });
 }
 
+// ============================================================
+//  REDIMENSIONAR GRÁFICO + INICIAR
+// ============================================================
+
+window.addEventListener("resize", () => carregarBatimentos());
+
 atualizarPaciente();
+carregarBatimentos();
+carregarEventos();
 
 setInterval(atualizarPaciente, 3000);
+setInterval(carregarBatimentos, 3000);
+setInterval(carregarEventos, 5000);
+
